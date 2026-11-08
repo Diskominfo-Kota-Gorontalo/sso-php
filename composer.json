@@ -3,7 +3,18 @@
     "description": "Client OpenID Connect SSO Pemerintah Kota Gorontalo untuk PHP 8.1+ (PHP native, CodeIgniter, dan dasar paket Laravel).",
     "type": "library",
     "license": "MIT",
-    "keywords": ["sso", "oidc", "openid-connect", "oauth2", "gorontalo"],
+    "keywords": [
+        "sso",
+        "oidc",
+        "openid-connect",
+        "oauth2",
+        "gorontalo"
+    ],
+    "homepage": "https://github.com/Diskominfo-Kota-Gorontalo/SSO-SDK",
+    "support": {
+        "issues": "https://github.com/Diskominfo-Kota-Gorontalo/SSO-SDK/issues",
+        "source": "https://github.com/Diskominfo-Kota-Gorontalo/SSO-SDK"
+    },
     "require": {
         "php": "^8.1",
         "ext-json": "*",
@@ -17,15 +28,21 @@
         "phpstan/phpstan": "^2.0"
     },
     "autoload": {
-        "psr-4": { "Gorontalokota\\Sso\\": "src/" }
+        "psr-4": {
+            "Gorontalokota\\Sso\\": "src/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Gorontalokota\\Sso\\Tests\\": "tests/" }
+        "psr-4": {
+            "Gorontalokota\\Sso\\Tests\\": "tests/"
+        }
     },
     "scripts": {
         "test": "phpunit",
         "analyse": "phpstan analyse"
     },
-    "config": { "sort-packages": true },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "stable"
 }
