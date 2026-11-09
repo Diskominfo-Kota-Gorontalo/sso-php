@@ -20,7 +20,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "firebase/php-jwt": "^6.10 || ^7.0",
-        "guzzlehttp/guzzle": "^7.8",
+        "guzzlehttp/guzzle": "^7.8 || ^8.0",
         "psr/simple-cache": "^2.0 || ^3.0"
     },
     "require-dev": {
