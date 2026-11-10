@@ -47,7 +47,7 @@ $tokens  = $client->handleCallback($_GET, AuthorizationRequest::fromArray($simpa
 $tokens  = $client->refresh($tokens->refreshToken);
 $claims  = $client->userinfo($tokens->accessToken);
 $url     = $client->logoutUrl($tokens->idToken);
-$claims  = $client->verifyAccessToken($bearer, ['asn']);   // untuk API
+$claims  = $client->verifyAccessToken($bearer, ['employee']);   // untuk API
 $logout  = $client->verifyLogoutToken($_POST['logout_token']);
 ```
 

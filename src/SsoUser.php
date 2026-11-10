@@ -61,7 +61,7 @@ final class SsoUser
         return $this->realm === Realm::External;
     }
 
-    /** NIP (internal realm, scope "asn" or "profile"). */
+    /** NIP (internal realm, scope "employee" or "profile"). */
     public function nip(): ?string
     {
         $nip = $this->claims['nip'] ?? ($this->isInternal() ? $this->preferredUsername : null);
@@ -81,27 +81,38 @@ final class SsoUser
     }
 
     /**
-     * Internal realm employment data (scope "asn").
+     * Internal realm employment data (scope "employee").
      *
-     * @return array{opd_kode: string|null, opd_nama: string|null, jabatan: string|null, golongan: string|null, status_kepegawaian: string|null}
+     * Reads the English claim names and falls back to the legacy Indonesian names sent by older SSO servers.
+     *
+     * @return array{organization_code: string|null, organization_name: string|null, position: string|null, grade: string|null, employment_status: string|null}
      */
     public function employment(): array
     {
-        $value = fn (string $key): ?string => isset($this->claims[$key]) ? (string) $this->claims[$key] : null;
-
         return [
-            'opd_kode' => $value('opd_kode'),
-            'opd_nama' => $value('opd_nama'),
-            'jabatan' => $value('jabatan'),
-            'golongan' => $value('golongan'),
-            'status_kepegawaian' => $value('status_kepegawaian'),
+            'organization_code' => $this->firstClaim('organization_code', 'opd_kode'),
+            'organization_name' => $this->firstClaim('organization_name', 'opd_nama'),
+            'position' => $this->firstClaim('position', 'jabatan'),
+            'grade' => $this->firstClaim('grade', 'golongan'),
+            'employment_status' => $this->firstClaim('employment_status', 'status_kepegawaian'),
         ];
     }
 
     /** External realm verification level: "L1" (self-registered) or "L2" (NIK checked at a service counter). */
     public function verificationLevel(): ?string
     {
-        return isset($this->claims['tingkat_akun']) ? (string) $this->claims['tingkat_akun'] : null;
+        return $this->firstClaim('verification_level', 'tingkat_akun');
+    }
+
+    private function firstClaim(string ...$names): ?string
+    {
+        foreach ($names as $name) {
+            if (isset($this->claims[$name]) && $this->claims[$name] !== '') {
+                return (string) $this->claims[$name];
+            }
+        }
+
+        return null;
     }
 
     /**

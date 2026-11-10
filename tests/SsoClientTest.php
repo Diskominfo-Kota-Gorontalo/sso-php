@@ -215,10 +215,10 @@ final class SsoClientTest extends TestCase
     public function test_missing_scopes_are_reported(): void
     {
         try {
-            $this->client()->verifyAccessToken($this->provider->accessToken(), ['asn']);
+            $this->client()->verifyAccessToken($this->provider->accessToken(), ['employee']);
             self::fail('Expected InsufficientScopeException.');
         } catch (InsufficientScopeException $exception) {
-            self::assertSame(['asn'], $exception->missingScopes);
+            self::assertSame(['employee'], $exception->missingScopes);
         }
     }
 
